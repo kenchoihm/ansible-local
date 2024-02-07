@@ -9,7 +9,7 @@ cd ~
 
 wget https://github.com/kenchoihm/ansible-local/archive/refs/heads/master.zip
 
-unzip ansible-local-master.zip
+unzip master.zip
 
 mv ansible-local-master ansible-local
 
