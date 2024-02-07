@@ -1,0 +1,8 @@
+[user]
+	email = ken@onuma.com
+	name = Ken
+[core]
+	autocrlf = true
+	fileMode = false
+[credential]
+	helper = store

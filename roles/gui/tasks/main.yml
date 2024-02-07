@@ -1,0 +1,25 @@
+---
+- name: Install Chrome repo
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+
+- name: Install Sublime repo
+  ansible.builtin.apt_repository:
+    repo: deb https://download.sublimetext.com/ apt/stable/
+    state: present
+
+- name: Install Sublime repo
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://repo.skype.com/deb stable main
+    state: present
+
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+      - google-chrome-stable
+      - sublime-text
+      - sublime-merge
+      - skypeforlinux
+
+

@@ -1,0 +1,19 @@
+---
+- name: Debug
+  gather_facts: false
+  hosts: localhost
+  tasks:
+    - name: Common init tasks
+      import_role:
+        name: common
+        tasks_from: init
+
+    - name: Import wsl role
+      import_role:
+        name: wsl
+
+    - name: Import common role
+      import_role:
+        name: common
+
+

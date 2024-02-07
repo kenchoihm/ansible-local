@@ -1,0 +1,43 @@
+---
+- name: get the username running the deploy
+  local_action: command whoami
+  register: whoami
+
+- name: set username into user variable
+  ansible.builtin.set_fact:
+    user: "{{ whoami.stdout }}"
+
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+      #- nemo
+      - git
+      - zip
+      - curl
+      - tree
+
+- name: Config global git settings
+  ansible.builtin.shell: |
+    git config --global credential.helper store
+    git config --global core.autocrlf true
+    git config --global core.fileMode false
+
+- name: Copy user git settings
+  ansible.builtin.copy:
+    src: files/.gitconfig
+    dest: '/home/{{ user }}/.gitconfig'
+
+- name: Create Project folder
+  ansible.builtin.file:
+    path: '/home/{{ user }}/Projects2'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: '0700'
+
+- name: Clone git projects
+  loop: "{{ git_projects | default([]) }}"
+  ansible.builtin.git:
+    repo: "{{ item }}"
+    dest: '/home/{{ user }}/Projects2/'
+    update: no

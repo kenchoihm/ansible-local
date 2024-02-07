@@ -1,0 +1,26 @@
+---
+- name: Create wsl.conf
+  become: true
+  ansible.builtin.copy:
+    src: files/wsl.conf
+    dest: /etc/wsl.conf
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: 'Change home directory to D:\[user]'
+  ansible.builtin.shell: 'usermod -d /mnt/d/{{ user }} {{ user }}'
+
+- name: Create .ssh folder
+  ansible.builtin.file:
+    path: '/home/{{ user }}/.ssh/'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: '0700'
+
+- name: 'Copy ssh key from {{ ssh_key_folder }}'
+  when: ssh_key_folder is defined
+  ansible.builtin.copy:
+    src: '{{ ssh_key_folder }}'
+    dest: '/home/{{ user }}/.ssh/'
